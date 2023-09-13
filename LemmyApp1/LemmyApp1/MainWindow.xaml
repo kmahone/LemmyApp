@@ -20,17 +20,12 @@
 
         <Button x:Name="myButton" Click="myButton_Click">Click Me</Button>
 
-        <ScrollViewer Grid.Row="1" Grid.Column="0">
+        <ScrollViewer Grid.Row="1" Grid.Column="0" x:Name="loggerScrollViewer">
             <TextBlock x:Name="tb1" />
         </ScrollViewer>
 
-        <ScrollViewer Grid.Row="1" Grid.Column="1" Visibility="Collapsed">
-            <StackPanel x:Name="sp1">
-                
-            </StackPanel>
-        </ScrollViewer>
 
-        <ScrollViewer Grid.Row="1" Grid.Column="1">
+        <ScrollViewer Grid.Row="1" Grid.Column="1" x:Name="scrollViewer1">
             <ItemsRepeater x:Name="repeater" >
                 <ItemsRepeater.ItemTemplate>
                     <DataTemplate>
