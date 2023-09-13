@@ -14,12 +14,12 @@
             <RowDefinition />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition />
+            <ColumnDefinition Width="100" />
             <ColumnDefinition />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
 
-        <StackPanel Orientation="Horizontal">
+        <StackPanel Grid.ColumnSpan="3" Orientation="Horizontal">
             <Button Click="myButton_Click" >Start</Button>
             <Button x:Name="commentsBtn" Click="commentsBtn_Click" >Comments</Button>
             <Button Content="GC" x:Name="gcBtn" Click="gcBtn_Click" />
@@ -35,17 +35,15 @@
             <ItemsRepeater x:Name="repeater" ItemsSource="{Binding Posts}" >
                 <ItemsRepeater.ItemTemplate>
                     <DataTemplate>
-                        <Grid>
+                        <Grid BorderBrush="Blue" BorderThickness="3" CornerRadius="20" Margin="5" Padding="5">
                             <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
                                 <RowDefinition Height="*" />
                                 <RowDefinition Height="Auto" />
                             </Grid.RowDefinitions>
-                            <Image Source="{Binding Url}" Height="400" Width="400" />
-                            <StackPanel Grid.Row="1">
-                                <TextBlock Text="{Binding Name}" FontSize="30" TextWrapping="Wrap" />
-                                <Button Content="Comments" x:Name="btnItemComments" Click="btnItemComments_Click" />
-                            </StackPanel>
-                            
+                            <TextBlock Grid.Row="0" Text="{Binding Name}" FontSize="30" />
+                            <Image Grid.Row="1" Source="{Binding Url}" MinHeight="400" MinWidth="400" />
+                            <AppBarButton Grid.Row="2" Icon="Comment" Click="btnItemComments_Click" />
                         </Grid>
                     </DataTemplate>
                 </ItemsRepeater.ItemTemplate>

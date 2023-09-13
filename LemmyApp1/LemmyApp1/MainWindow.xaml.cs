@@ -30,13 +30,14 @@ namespace LemmyApp1
             this.InitializeComponent();
             scrollViewer1.ViewChanged += ScrollViewer1_ViewChanged;
             this.LayoutRoot.DataContext = vm;
+            vm.Setup();
         }
 
         LemmyPostsVM vm = new LemmyPostsVM();
 
         private void myButton_Click(object sender, RoutedEventArgs e)
         {
-            vm.Setup();
+            
         }
 
         private void ScrollViewer1_ViewChanged(object sender, ScrollViewerViewChangedEventArgs e)
