@@ -16,9 +16,15 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
             <ColumnDefinition />
+            <ColumnDefinition />
         </Grid.ColumnDefinitions>
 
-        <Button x:Name="myButton" Click="myButton_Click">Click Me</Button>
+        <StackPanel Orientation="Horizontal">
+            <Button Click="myButton_Click" >Start</Button>
+            <Button x:Name="commentsBtn" Click="commentsBtn_Click" >Comments</Button>
+            <Button Content="GC" x:Name="gcBtn" Click="gcBtn_Click" />
+        </StackPanel>
+        
 
         <ScrollViewer Grid.Row="1" Grid.Column="0" x:Name="loggerScrollViewer">
             <TextBlock x:Name="tb1" />
@@ -30,13 +36,25 @@
                 <ItemsRepeater.ItemTemplate>
                     <DataTemplate>
                         <Grid>
-                            <Image Source="{Binding Url}" />
-                            <TextBlock Text="{Binding Name}" FontSize="30" />
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <Image Source="{Binding Url}" Height="400" Width="400" />
+                            <StackPanel Grid.Row="1">
+                                <TextBlock Text="{Binding Name}" FontSize="30" />
+                                <Button Content="Comments" x:Name="btnItemComments" Click="btnItemComments_Click" />
+                            </StackPanel>
+                            
                         </Grid>
                     </DataTemplate>
                 </ItemsRepeater.ItemTemplate>
             </ItemsRepeater>
         </ScrollViewer>
+
+        <Grid Grid.Column="2" Grid.Row="1">
+            <WebView2 x:Name="webView" />
+        </Grid>
 
 
     </Grid>

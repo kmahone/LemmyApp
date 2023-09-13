@@ -70,11 +70,11 @@ namespace LemmyApp1
 
         private async Task Setup()
         {
-            client = new LemmyHttp("https://lemmy.world");
+            client = new LemmyHttp("https://lemmy.ml");
 
             GetCommunity getCommunity = new GetCommunity
             {
-                Name = "pics"
+                Name = "memes"
             };
             var comRes = await client.GetCommunity(getCommunity);
             var comView = comRes.CommunityView;
@@ -138,6 +138,8 @@ namespace LemmyApp1
         {
             if(string.IsNullOrEmpty(url)) return false; 
 
+            if(url.Contains("lemmy.world")) return false;
+
             return url.EndsWith(".png") || url.EndsWith(".jpg") || url.EndsWith(".gif") || url.EndsWith(".jpeg");
         }
 
@@ -154,6 +156,43 @@ namespace LemmyApp1
             //image.Source = bitmap;
 
             //sp1.Children.Add(image);
+        }
+
+        private async void commentsBtn_Click(object sender, RoutedEventArgs e)
+        {
+            var post = repeater.ItemsSourceView.GetAt(0) as Post;
+            if (post != null)
+            {
+                //post.Id
+                //client.GetAllComments
+                //GetComments gc = new GetComments
+                //{
+                //    PostId = 4864870,
+                //};
+                //var commentsRes = await client.GetComments(gc);
+                //var comments = commentsRes.Comments;
+                //foreach (var commentView in comments)
+                //{
+                //    var comment = commentView.Comment;
+                //    Log(comment.Content);
+                //}
+
+                webView.Source = new Uri(post.ApId);
+                
+            }
+
+        }
+
+        private void btnItemComments_Click(object sender, RoutedEventArgs e)
+        {
+            var button = sender as Button;
+            var post = button.DataContext as Post;
+            webView.Source = new Uri($"https://lemmy.ml/post/{post.Id}");
+        }
+
+        private void gcBtn_Click(object sender, RoutedEventArgs e)
+        {
+            GC.Collect();
         }
     }
 }
