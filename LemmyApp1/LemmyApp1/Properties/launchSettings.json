@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "LemmyApp1 (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "LemmyApp1 (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}
