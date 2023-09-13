@@ -8,7 +8,42 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+
         <Button x:Name="myButton" Click="myButton_Click">Click Me</Button>
-    </StackPanel>
+
+        <ScrollViewer Grid.Row="1" Grid.Column="0">
+            <TextBlock x:Name="tb1" />
+        </ScrollViewer>
+
+        <ScrollViewer Grid.Row="1" Grid.Column="1" Visibility="Collapsed">
+            <StackPanel x:Name="sp1">
+                
+            </StackPanel>
+        </ScrollViewer>
+
+        <ScrollViewer Grid.Row="1" Grid.Column="1">
+            <ItemsRepeater x:Name="repeater" >
+                <ItemsRepeater.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Image Source="{Binding Url}" />
+                            <TextBlock Text="{Binding Name}" FontSize="30" />
+                        </Grid>
+                    </DataTemplate>
+                </ItemsRepeater.ItemTemplate>
+            </ItemsRepeater>
+        </ScrollViewer>
+
+
+    </Grid>
+    
 </Window>

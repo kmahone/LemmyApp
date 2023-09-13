@@ -1,7 +1,8 @@
 {
   "profiles": {
     "LemmyApp1 (Package)": {
-      "commandName": "MsixPackage"
+      "commandName": "MsixPackage",
+      "nativeDebugging": true
     },
     "LemmyApp1 (Unpackaged)": {
       "commandName": "Project"
