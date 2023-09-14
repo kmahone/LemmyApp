@@ -13,6 +13,7 @@ using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 using Lemmy.Net.Types;
+using System.Diagnostics;
 
 namespace LemmyApp1
 {
@@ -30,18 +31,36 @@ namespace LemmyApp1
 
         async void ConfigureWebViewCommentsViewer()
         {
-            var js2 = @"document.addEventListener(""DOMContentLoaded"", function() {
-                            var root = document.getElementById(""root"");
-                            var comments = document.getElementsByClassName(""comments"");
-                            var newContent = ""No Comments"";
-                            if(comments.length > 0)
-                            {
-                              newContent = comments[0];
-                            }
-                            root.replaceWith(newContent);
-            });";
+            var js2 = @"
+                document.addEventListener(""DOMContentLoaded"", function() {
+                    if(window.location.href.startsWith(""https://lemmy.ml/post/""))
+                    {
+                        var root = document.getElementById(""root"");
+                        var comments = document.getElementsByClassName(""comments"");
+                        var newContent = ""No Comments"";
+                        if(comments.length > 0)
+                        {
+                            newContent = comments[0];
+                        }
+                        root.replaceWith(newContent);
+                    }
+                });";
             await webView.EnsureCoreWebView2Async();
+
+            webView.NavigationStarting += WebView_NavigationStarting;
+
+            var brush = App.Current.Resources["ApplicationPageBackgroundThemeBrush"] as SolidColorBrush;
+            if(brush != null) 
+            {
+                webView.DefaultBackgroundColor = brush.Color;
+            }
+
             webView.CoreWebView2.AddScriptToExecuteOnDocumentCreatedAsync(js2);
+        }
+
+        private void WebView_NavigationStarting(WebView2 sender, Microsoft.Web.WebView2.Core.CoreWebView2NavigationStartingEventArgs args)
+        {
+            Debug.WriteLine($"WebView_NavigationStarting: Uri: {args.Uri}, IsUserInitiated: {args.IsUserInitiated}");
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -90,7 +109,7 @@ namespace LemmyApp1
             
             
             webView.Source = new Uri($"https://lemmy.ml/post/{postView.Post.Id}");
-
+            webView.Visibility = Visibility.Visible;
         }
 
         private void gcBtn_Click(object sender, RoutedEventArgs e)

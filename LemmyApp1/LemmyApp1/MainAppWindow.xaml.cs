@@ -26,7 +26,6 @@ namespace LemmyApp1
         public MainAppWindow()
         {
             this.InitializeComponent();
-            frame1.Navigate(typeof(LemmyPostsViewerPage));
             navigationView.MenuItemsSource = new[]
             {
                 "memes",

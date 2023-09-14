@@ -51,7 +51,7 @@
         </ScrollViewer>
 
         <Grid Grid.Row="1" Grid.Column="1" >
-            <WebView2 x:Name="webView" />
+            <WebView2 x:Name="webView" Visibility="Collapsed" />
         </Grid>
 
 
