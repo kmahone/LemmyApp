@@ -31,6 +31,7 @@ namespace LemmyApp1
             scrollViewer1.ViewChanged += ScrollViewer1_ViewChanged;
             this.LayoutRoot.DataContext = vm;
             vm.Setup();
+            
         }
 
         LemmyPostsVM vm = new LemmyPostsVM();
@@ -68,8 +69,15 @@ namespace LemmyApp1
         private void btnItemComments_Click(object sender, RoutedEventArgs e)
         {
             var button = sender as Button;
-            var post = button.DataContext as Post;
-            webView.Source = new Uri($"https://lemmy.ml/post/{post.Id}");
+            var parent = button.Parent as UIElement;
+
+            var index = repeater.GetElementIndex(parent);
+            var postView = repeater.ItemsSourceView.GetAt(index) as PostView;
+
+            //var post = button.DataContext as Post;
+            webView.Source = new Uri($"https://lemmy.ml/post/{postView.Post.Id}");
+
+            
         }
 
         private void gcBtn_Click(object sender, RoutedEventArgs e)

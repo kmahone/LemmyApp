@@ -4,6 +4,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:LemmyApp1"
+    xmlns:lemmy="using:Lemmy.Net.Types" 
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
@@ -32,18 +33,24 @@
 
 
         <ScrollViewer Grid.Row="1" Grid.Column="1" x:Name="scrollViewer1" VerticalSnapPointsType="Mandatory">
-            <ItemsRepeater x:Name="repeater" ItemsSource="{Binding Posts}" >
+            <ItemsRepeater x:Name="repeater" ItemsSource="{x:Bind vm.Posts, Mode=OneWay}" >
                 <ItemsRepeater.ItemTemplate>
-                    <DataTemplate>
+                    <DataTemplate x:DataType="lemmy:PostView" >
                         <Grid BorderBrush="Blue" BorderThickness="3" CornerRadius="20" Margin="5" Padding="5">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="*" />
                                 <RowDefinition Height="Auto" />
                             </Grid.RowDefinitions>
-                            <TextBlock Grid.Row="0" Text="{Binding Name}" FontSize="30" />
-                            <Image Grid.Row="1" Source="{Binding Url}" MinHeight="400" MinWidth="400" />
-                            <AppBarButton Grid.Row="2" Icon="Comment" Click="btnItemComments_Click" />
+                            <TextBlock Grid.Row="0" Text="{x:Bind Post.Name}" FontSize="30" ToolTipService.ToolTip="{x:Bind Post.Name}" />
+                            <Image Grid.Row="1" Source="{x:Bind Post.Url}" MinHeight="400" MinWidth="400" />
+                            <Button Grid.Row="2" Click="btnItemComments_Click" >
+                                <StackPanel Orientation="Horizontal">
+                                    <SymbolIcon Symbol="Comment" />
+                                    <TextBlock Text="{x:Bind Counts.Comments}" FontSize="20" Margin="5,0,0,0" />
+                                </StackPanel>
+                            </Button>
+
                         </Grid>
                     </DataTemplate>
                 </ItemsRepeater.ItemTemplate>
