@@ -57,13 +57,13 @@ namespace LemmyApp1
         int pageSize = 10;
         int page = 1;
 
-        public async void Setup()
+        public async void Setup(string communityName)
         {
             client = new LemmyHttp("https://lemmy.ml");
 
             GetCommunity getCommunity = new GetCommunity
             {
-                Name = "memes"
+                Name = communityName
             };
             var comRes = await client.GetCommunity(getCommunity);
             var comView = comRes.CommunityView;
