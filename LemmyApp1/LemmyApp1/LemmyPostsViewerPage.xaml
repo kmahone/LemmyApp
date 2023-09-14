@@ -26,7 +26,31 @@
             <Button Content="GC" x:Name="gcBtn" Click="gcBtn_Click" />
         </StackPanel>
 
-        <ScrollViewer Grid.Row="1" Grid.Column="0" x:Name="scrollViewer1" VerticalSnapPointsType="Mandatory">
+        <ItemsView x:Name="itemsView" Grid.Row="1" Grid.Column="0" ItemsSource="{x:Bind vm.Posts, Mode=OneWay}" >
+            <ItemsView.ItemTemplate>
+                <DataTemplate x:DataType="lemmy:PostView" >
+                    <ItemContainer>
+                        <Grid Margin="5" Padding="5">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <TextBlock Grid.Row="0" Text="{x:Bind Post.Name}" FontSize="30" ToolTipService.ToolTip="{x:Bind Post.Name}" TextWrapping="Wrap" />
+                            <Image Grid.Row="1" Source="{x:Bind Post.Url}" MinHeight="400" MinWidth="400" />
+                            <Button Grid.Row="2" Click="btnItemComments_Click" >
+                                <StackPanel Orientation="Horizontal">
+                                    <SymbolIcon Symbol="Comment" />
+                                    <TextBlock Text="{x:Bind Counts.Comments}" FontSize="20" Margin="5,0,0,0" />
+                                </StackPanel>
+                            </Button>
+                        </Grid>
+                    </ItemContainer>
+                </DataTemplate>
+            </ItemsView.ItemTemplate>
+        </ItemsView>
+
+        <ScrollViewer Grid.Row="1" Grid.Column="1" x:Name="scrollViewer1" VerticalSnapPointsType="Mandatory">
             <ItemsRepeater x:Name="repeater" ItemsSource="{x:Bind vm.Posts, Mode=OneWay}" >
                 <ItemsRepeater.ItemTemplate>
                     <DataTemplate x:DataType="lemmy:PostView" >

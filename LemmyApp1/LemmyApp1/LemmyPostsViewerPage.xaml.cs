@@ -25,8 +25,15 @@ namespace LemmyApp1
             scrollViewer1.ViewChanged += ScrollViewer1_ViewChanged;
             this.LayoutRoot.DataContext = vm;
 
-            
             ConfigureWebViewCommentsViewer();
+            this.Loaded += LemmyPostsViewerPage_Loaded;
+
+            itemsView.SelectionChanged += ItemsView_SelectionChanged;
+        }
+
+        private void LemmyPostsViewerPage_Loaded(object sender, RoutedEventArgs e)
+        {
+            itemsView.ScrollView.ViewChanged += ScrollView_ViewChanged;
         }
 
         async void ConfigureWebViewCommentsViewer()
@@ -75,7 +82,22 @@ namespace LemmyApp1
 
         private void myButton_Click(object sender, RoutedEventArgs e)
         {
-            
+            webView.Visibility = Visibility.Collapsed;
+        }
+
+        private void ScrollView_ViewChanged(ScrollView sender, object args)
+        {
+            if (vm.SetupRan)
+            {
+                var offset = sender.VerticalOffset;
+                var extent = sender.ExtentHeight;
+                var viewport = sender.ViewportHeight;
+                var boundary = extent - (3 * viewport);
+                if (offset > boundary)
+                {
+                    vm.LoadMoreItems();
+                }
+            }
         }
 
         private void ScrollViewer1_ViewChanged(object sender, ScrollViewerViewChangedEventArgs e)
@@ -98,18 +120,27 @@ namespace LemmyApp1
 
         }
 
+        private void ItemsView_SelectionChanged(ItemsView sender, ItemsViewSelectionChangedEventArgs args)
+        {
+            var postView = sender.SelectedItem as PostView;
+
+            if(postView != null) 
+            {
+                webView.Source = new Uri($"https://lemmy.ml/post/{postView.Post.Id}");
+                webView.Visibility = Visibility.Visible;
+            }
+        }
+
         private async void btnItemComments_Click(object sender, RoutedEventArgs e)
         {
-            var button = sender as Button;
-            var parent = button.Parent as UIElement;
+            //var button = sender as Button;
+            //var parent = button.Parent as UIElement;
 
-            var index = repeater.GetElementIndex(parent);
-            var postView = repeater.ItemsSourceView.GetAt(index) as PostView;
+            //var index = repeater.GetElementIndex(parent);
+            //var postView = repeater.ItemsSourceView.GetAt(index) as PostView;
 
-            
-            
-            webView.Source = new Uri($"https://lemmy.ml/post/{postView.Post.Id}");
-            webView.Visibility = Visibility.Visible;
+            //webView.Source = new Uri($"https://lemmy.ml/post/{postView.Post.Id}");
+            //webView.Visibility = Visibility.Visible;
         }
 
         private void gcBtn_Click(object sender, RoutedEventArgs e)
