@@ -37,7 +37,7 @@
                                 <RowDefinition Height="Auto" />
                             </Grid.RowDefinitions>
                             <TextBlock Grid.Row="0" Text="{x:Bind Post.Name}" FontSize="30" ToolTipService.ToolTip="{x:Bind Post.Name}" TextWrapping="Wrap" />
-                            <Image Grid.Row="1" Source="{x:Bind Post.Url}" MinHeight="400" MinWidth="400" />
+                            <Image Grid.Row="1" Source="{x:Bind Post.Url}" MinHeight="400" MinWidth="400" MaxHeight="600" />
                             <Button Grid.Row="2" Click="btnItemComments_Click" >
                                 <StackPanel Orientation="Horizontal">
                                     <SymbolIcon Symbol="Comment" />
@@ -49,30 +49,6 @@
                 </DataTemplate>
             </ItemsView.ItemTemplate>
         </ItemsView>
-
-        <ScrollViewer Grid.Row="1" Grid.Column="1" x:Name="scrollViewer1" >
-            <ItemsRepeater x:Name="repeater" ItemsSource="{x:Bind vm.Posts, Mode=OneWay}" >
-                <ItemsRepeater.ItemTemplate>
-                    <DataTemplate x:DataType="lemmy:PostView" >
-                        <Grid BorderBrush="Blue" BorderThickness="3" CornerRadius="20" Margin="5" Padding="5">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="*" />
-                                <RowDefinition Height="Auto" />
-                            </Grid.RowDefinitions>
-                            <TextBlock Grid.Row="0" Text="{x:Bind Post.Name}" FontSize="30" ToolTipService.ToolTip="{x:Bind Post.Name}" TextWrapping="Wrap" />
-                            <Image Grid.Row="1" Source="{x:Bind Post.Url}" MinHeight="400" MinWidth="400" />
-                            <Button Grid.Row="2" Click="btnItemComments_Click" >
-                                <StackPanel Orientation="Horizontal">
-                                    <SymbolIcon Symbol="Comment" />
-                                    <TextBlock Text="{x:Bind Counts.Comments}" FontSize="20" Margin="5,0,0,0" />
-                                </StackPanel>
-                            </Button>
-                        </Grid>
-                    </DataTemplate>
-                </ItemsRepeater.ItemTemplate>
-            </ItemsRepeater>
-        </ScrollViewer>
 
         <Grid Grid.Row="1" Grid.Column="1" >
             <WebView2 x:Name="webView" Visibility="Collapsed" />
