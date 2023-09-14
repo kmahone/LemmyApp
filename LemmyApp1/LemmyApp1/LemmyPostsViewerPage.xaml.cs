@@ -14,6 +14,7 @@ using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 using Lemmy.Net.Types;
 using System.Diagnostics;
+using System.Numerics;
 
 namespace LemmyApp1
 {
@@ -29,12 +30,17 @@ namespace LemmyApp1
             this.Loaded += LemmyPostsViewerPage_Loaded;
 
             itemsView.SelectionChanged += ItemsView_SelectionChanged;
+            
         }
 
         private void LemmyPostsViewerPage_Loaded(object sender, RoutedEventArgs e)
         {
             itemsView.ScrollView.ViewChanged += ScrollView_ViewChanged;
+            //itemsView.ScrollView.StateChanged += ScrollView_StateChanged;
+            //itemsView.ScrollView.IgnoredInputKinds = ScrollingInputKinds.MouseWheel;
         }
+
+
 
         async void ConfigureWebViewCommentsViewer()
         {
@@ -85,17 +91,38 @@ namespace LemmyApp1
             webView.Visibility = Visibility.Collapsed;
         }
 
+        private void ScrollView_StateChanged(ScrollView sender, object args)
+        {
+            if (vm.SetupRan)
+            {
+                if (sender.State == ScrollingInteractionState.Idle)
+                {
+                    var offset = sender.VerticalOffset;
+                    var extent = sender.ExtentHeight;
+                    var viewport = sender.ViewportHeight;
+                    var boundary = extent - (3 * viewport);
+                    if (offset > boundary)
+                    {
+                        vm.LoadMoreItems();
+                    }
+                }
+            }
+        }
+
         private void ScrollView_ViewChanged(ScrollView sender, object args)
         {
             if (vm.SetupRan)
             {
-                var offset = sender.VerticalOffset;
-                var extent = sender.ExtentHeight;
-                var viewport = sender.ViewportHeight;
-                var boundary = extent - (3 * viewport);
-                if (offset > boundary)
+                //if(sender.State == ScrollingInteractionState.Idle)
                 {
-                    vm.LoadMoreItems();
+                    var offset = sender.VerticalOffset;
+                    var extent = sender.ExtentHeight;
+                    var viewport = sender.ViewportHeight;
+                    var boundary = extent - (3 * viewport);
+                    if (offset > boundary)
+                    {
+                        vm.LoadMoreItems();
+                    }
                 }
             }
         }
@@ -146,6 +173,16 @@ namespace LemmyApp1
         private void gcBtn_Click(object sender, RoutedEventArgs e)
         {
             GC.Collect();
+        }
+
+        private void itemsView_PointerWheelChanged(object sender, PointerRoutedEventArgs e)
+        {
+            //var delta = e.GetCurrentPoint(itemsView).Properties.MouseWheelDelta;
+            //Debug.WriteLine($"itemsView_PointerWheelChanged: delta: {delta}");
+
+            //Vector2 inertiaDecayRate = new Vector2(0.9995f, 0.9995f);
+            //Vector2 vector2 = new Vector2(0, -7 * delta);
+            //itemsView.ScrollView.AddScrollVelocity(vector2, inertiaDecayRate);
         }
     }
 }

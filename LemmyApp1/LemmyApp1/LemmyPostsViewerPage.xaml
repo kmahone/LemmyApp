@@ -50,7 +50,7 @@
             </ItemsView.ItemTemplate>
         </ItemsView>
 
-        <ScrollViewer Grid.Row="1" Grid.Column="1" x:Name="scrollViewer1" VerticalSnapPointsType="Mandatory">
+        <ScrollViewer Grid.Row="1" Grid.Column="1" x:Name="scrollViewer1" >
             <ItemsRepeater x:Name="repeater" ItemsSource="{x:Bind vm.Posts, Mode=OneWay}" >
                 <ItemsRepeater.ItemTemplate>
                     <DataTemplate x:DataType="lemmy:PostView" >
