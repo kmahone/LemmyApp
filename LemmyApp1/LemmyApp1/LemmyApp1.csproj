@@ -12,8 +12,10 @@
     <EnableMsixTooling>true</EnableMsixTooling>
   </PropertyGroup>
   <ItemGroup>
+    <None Remove="CommunityPicker.xaml" />
     <None Remove="LemmyPostsViewerPage.xaml" />
     <None Remove="MainAppWindow.xaml" />
+    <None Remove="SettingsPage.xaml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -40,6 +42,16 @@
   -->
   <ItemGroup Condition="'$(DisableMsixProjectCapabilityAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">
     <ProjectCapability Include="Msix" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="CommunityPicker.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="SettingsPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="LemmyPostsViewerPage.xaml">

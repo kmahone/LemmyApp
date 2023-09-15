@@ -26,19 +26,21 @@ namespace LemmyApp1
         public MainAppWindow()
         {
             this.InitializeComponent();
-            navigationView.MenuItemsSource = new[]
-            {
-                "memes",
-                "pics",
-                "programmerhumor",
-                "badrealestate@feddit.uk",
-                "cats@lemmy.world"
-            };
+            //navigationView.MenuItemsSource = new[]
+            //{
+            //    "memes",
+            //    "pics",
+            //    "programmerhumor",
+            //    "badrealestate@feddit.uk",
+            //    "cats@lemmy.world"
+            //};
 
             navigationView.SelectionChanged += NavigationView_SelectionChanged;
             navigationView.BackRequested += NavigationView_BackRequested;
-            navigationView.SelectedItem = "memes";
+            //navigationView.SelectedItem = "memes";
         }
+
+        LemmyCommunitiesVM communitiesVM = new LemmyCommunitiesVM();
 
         private void NavigationView_BackRequested(NavigationView sender, NavigationViewBackRequestedEventArgs args)
         {
@@ -50,9 +52,17 @@ namespace LemmyApp1
 
         private void NavigationView_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
         {
-            var item = navigationView.SelectedItem as string;
-            navigationView.Header = item;
-            frame1.Navigate(typeof(LemmyPostsViewerPage), item);
+            if (navigationView.SelectedItem == navigationView.SettingsItem)
+            {
+                navigationView.Header = "Settings";
+                frame1.Navigate(typeof(SettingsPage), communitiesVM);
+            }
+            else
+            {
+                var item = navigationView.SelectedItem as string;
+                navigationView.Header = item;
+                frame1.Navigate(typeof(LemmyPostsViewerPage), item);
+            }
         }
     }
 }
