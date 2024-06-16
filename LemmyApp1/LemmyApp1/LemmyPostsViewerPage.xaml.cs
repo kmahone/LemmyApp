@@ -56,7 +56,7 @@ namespace LemmyApp1
         {
             var js2 = @"
                 document.addEventListener(""DOMContentLoaded"", function() {
-                    if(window.location.href.startsWith(""https://lemmy.ml/post/""))
+                    if(window.location.href.startsWith(""https://lemmy.world/post/""))
                     {
                         var root = document.getElementById(""root"");
                         var comments = document.getElementsByClassName(""comments"");
@@ -78,7 +78,7 @@ namespace LemmyApp1
                 webView.DefaultBackgroundColor = brush.Color;
             }
 
-            webView.CoreWebView2.AddScriptToExecuteOnDocumentCreatedAsync(js2);
+            _ = webView.CoreWebView2.AddScriptToExecuteOnDocumentCreatedAsync(js2);
         }
 
         private void WebView_NavigationStarting(WebView2 sender, Microsoft.Web.WebView2.Core.CoreWebView2NavigationStartingEventArgs args)
@@ -129,7 +129,7 @@ namespace LemmyApp1
 
             if(postView != null) 
             {
-                webView.Source = new Uri($"https://lemmy.ml/post/{postView.Post.Id}");
+                webView.Source = new Uri($"https://lemmy.world/post/{postView.Post.Id}");
                 webView.Visibility = Visibility.Visible;
             }
         }
@@ -142,7 +142,7 @@ namespace LemmyApp1
             //var index = repeater.GetElementIndex(parent);
             //var postView = repeater.ItemsSourceView.GetAt(index) as PostView;
 
-            //webView.Source = new Uri($"https://lemmy.ml/post/{postView.Post.Id}");
+            //webView.Source = new Uri($"https://lemmy.world/post/{postView.Post.Id}");
             //webView.Visibility = Visibility.Visible;
         }
 

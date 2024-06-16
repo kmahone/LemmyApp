@@ -59,6 +59,6 @@ namespace LemmyApp1
             asb.ItemsSource = items;
         }
 
-        LemmyHttp client = new LemmyHttp("https://lemmy.ml");
+        LemmyHttp client = new LemmyHttp("https://lemmy.world");
     }
 }

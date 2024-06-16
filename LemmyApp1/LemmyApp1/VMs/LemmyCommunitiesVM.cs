@@ -27,7 +27,7 @@ namespace LemmyApp1
             "pics",
             "programmerhumor",
             "badrealestate@feddit.uk",
-            "cats@lemmy.world"
+            "cat@lemmy.world"
         };
 
         public ObservableCollection<string> Communities
@@ -65,7 +65,7 @@ namespace LemmyApp1
 
         public override string ToString()
         {
-            if(string.IsNullOrEmpty(Host) || Host == "lemmy.ml")
+            if(string.IsNullOrEmpty(Host) || Host == "lemmy.world")
             {
                 return Name;
             }

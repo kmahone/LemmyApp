@@ -59,7 +59,7 @@ namespace LemmyApp1
 
         public async void Setup(string communityName)
         {
-            client = new LemmyHttp("https://lemmy.ml");
+            client = new LemmyHttp("https://lemmy.world");
 
             GetCommunity getCommunity = new GetCommunity
             {
