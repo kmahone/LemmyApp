@@ -29,7 +29,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Lemmy.Net" Version="1.0.4" />
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.4.230822000" />
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.755" />
     <Manifest Include="$(ApplicationManifest)" />
@@ -42,6 +41,9 @@
   -->
   <ItemGroup Condition="'$(DisableMsixProjectCapabilityAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">
     <ProjectCapability Include="Msix" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Lemmy.Net\Lemmy.Net\Lemmy.Net.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Page Update="CommunityPicker.xaml">
