@@ -50,6 +50,18 @@ namespace LemmyApp1
             }
         }
 
+        private string _description;
+        public string Description
+        {
+            get { return _description; }
+            set
+            {
+                _description = value;
+                NotifyPropertyChanged(nameof(Description));
+            }
+        }
+        
+
         bool isLoadingMoreItems = false;
 
         LemmyHttp client;
@@ -80,6 +92,8 @@ namespace LemmyApp1
             var getPostsRes = await client.GetPosts(getPosts);
             var imagePosts = getPostsRes.Posts.Where(postView => IsImageUrl(postView.Post.Url));
             Posts = new ObservableCollection<PostView>(imagePosts);
+
+            this.Description = com.Description;
 
             SetupRan = true;
         }
