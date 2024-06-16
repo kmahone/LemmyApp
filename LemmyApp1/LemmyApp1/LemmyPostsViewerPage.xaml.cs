@@ -28,12 +28,28 @@ namespace LemmyApp1
             ConfigureWebViewCommentsViewer();
             this.Loaded += LemmyPostsViewerPage_Loaded;
 
-            itemsView.SelectionChanged += ItemsView_SelectionChanged;
+            listview.SelectionChanged += Listview_SelectionChanged;
         }
 
         private void LemmyPostsViewerPage_Loaded(object sender, RoutedEventArgs e)
         {
-            itemsView.ScrollView.ViewChanged += ScrollView_ViewChanged;
+            var scrollViewer = GetAllDescendants(listview).OfType<ScrollViewer>().First();
+            scrollViewer.ViewChanging += ScrollViewer_ViewChanging;
+        }
+
+
+        private IEnumerable<DependencyObject> GetAllDescendants(DependencyObject element)
+        {
+            var count = VisualTreeHelper.GetChildrenCount(element);
+            for (int i = 0; i < count; i++)
+            {
+                var child = VisualTreeHelper.GetChild(element, i);
+                yield return child;
+                foreach (var descendant in GetAllDescendants(child))
+                {
+                    yield return descendant;
+                }
+            }
         }
 
         async void ConfigureWebViewCommentsViewer()
@@ -84,14 +100,16 @@ namespace LemmyApp1
         {
             webView.Visibility = Visibility.Collapsed;
         }
-        
-        private void ScrollView_ViewChanged(ScrollView sender, object args)
+
+        private void ScrollViewer_ViewChanging(object sender, ScrollViewerViewChangingEventArgs e)
         {
             if (vm.SetupRan)
             {
-                var offset = sender.VerticalOffset;
-                var extent = sender.ExtentHeight;
-                var viewport = sender.ViewportHeight;
+                var scrollViewer = sender as ScrollViewer;
+
+                var offset = e.NextView.VerticalOffset;
+                var extent = scrollViewer.ExtentHeight;
+                var viewport = scrollViewer.ViewportHeight;
                 var boundary = extent - (3 * viewport);
                 if (offset > boundary)
                 {
@@ -105,9 +123,9 @@ namespace LemmyApp1
 
         }
 
-        private void ItemsView_SelectionChanged(ItemsView sender, ItemsViewSelectionChangedEventArgs args)
+        private void Listview_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            var postView = sender.SelectedItem as PostView;
+            var postView = listview.SelectedItem as PostView;
 
             if(postView != null) 
             {

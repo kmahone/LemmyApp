@@ -26,8 +26,8 @@
             <Button Content="GC" x:Name="gcBtn" Click="gcBtn_Click" />
         </StackPanel>
 
-        <ItemsView x:Name="itemsView" Grid.Row="1" Grid.Column="0" ItemsSource="{x:Bind vm.Posts, Mode=OneWay}" >
-            <ItemsView.ItemTemplate>
+        <ListView x:Name="listview" Grid.Row="1" Grid.Column="0" ItemsSource="{x:Bind vm.Posts, Mode=OneWay}" >
+            <ListView.ItemTemplate>
                 <DataTemplate x:DataType="lemmy:PostView" >
                     <ItemContainer>
                         <Grid Margin="5" Padding="5">
@@ -47,8 +47,8 @@
                         </Grid>
                     </ItemContainer>
                 </DataTemplate>
-            </ItemsView.ItemTemplate>
-        </ItemsView>
+            </ListView.ItemTemplate>
+        </ListView>
 
         <Grid Grid.Row="1" Grid.Column="1" >
             <WebView2 x:Name="webView" Visibility="Collapsed" />
