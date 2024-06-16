@@ -1,0 +1,3 @@
+[submodule "Lemmy.Net"]
+	path = Lemmy.Net
+	url = https://github.com/Rickebo/Lemmy.Net.git
