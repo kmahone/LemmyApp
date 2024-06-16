@@ -25,7 +25,6 @@ namespace LemmyApp1
         public LemmyPostsViewerPage()
         {
             this.InitializeComponent();
-            this.LayoutRoot.DataContext = vm;
 
             ConfigureWebViewCommentsViewer();
             this.Loaded += LemmyPostsViewerPage_Loaded;
@@ -103,15 +102,16 @@ namespace LemmyApp1
             Debug.WriteLine($"WebView_NavigationStarting: Uri: {args.Uri}, IsUserInitiated: {args.IsUserInitiated}");
         }
 
+        private LemmyPostsVM vm;
+
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
 
-            var item = e.Parameter as string;
-            vm.Setup(item);
+            vm = e.Parameter as LemmyPostsVM;
+            vm.Setup();
         }
 
-        LemmyPostsVM vm = new LemmyPostsVM();
 
         private void myButton_Click(object sender, RoutedEventArgs e)
         {

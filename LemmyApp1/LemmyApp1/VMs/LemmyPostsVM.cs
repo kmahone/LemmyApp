@@ -12,6 +12,14 @@ namespace LemmyApp1
 {
     internal class LemmyPostsVM : INotifyPropertyChanged
     {
+        public LemmyPostsVM(LemmyAppVM appVM, Community community)
+        {
+            AppVM = appVM;
+            Community = community;
+        }
+
+        public LemmyAppVM AppVM { get; private set; }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         private void NotifyPropertyChanged(string propertyName)
@@ -64,24 +72,13 @@ namespace LemmyApp1
 
         bool isLoadingMoreItems = false;
 
-        LemmyHttp client;
         long communityId;
         int pageSize = 10;
         int page = 1;
 
-        public async void Setup(string communityName)
+        public async void Setup()
         {
-            client = new LemmyHttp("https://lemmy.world");
-
-            GetCommunity getCommunity = new GetCommunity
-            {
-                Name = communityName
-            };
-            var comRes = await client.GetCommunity(getCommunity);
-            var comView = comRes.CommunityView;
-            var com = comView.Community;
-
-            communityId = com.Id;
+            communityId = Community.Id;
 
             GetPosts getPosts = new GetPosts
             {
@@ -89,11 +86,10 @@ namespace LemmyApp1
                 Limit = pageSize,
                 Page = 1,
             };
-            var getPostsRes = await client.GetPosts(getPosts);
+            
+            var getPostsRes = await AppVM.Client.GetPosts(getPosts);
             var imagePosts = getPostsRes.Posts.Where(postView => IsImageUrl(postView.Post.Url));
             Posts = new ObservableCollection<PostView>(imagePosts);
-
-            this.Community = com;
 
             SetupRan = true;
         }
@@ -117,7 +113,7 @@ namespace LemmyApp1
                 Limit = pageSize,
                 Page = page,
             };
-            var getPostsRes = await client.GetPosts(getPosts);
+            var getPostsRes = await AppVM.Client.GetPosts(getPosts);
 
             var imagePosts = getPostsRes.Posts.Where(postView => IsImageUrl(postView.Post.Url));
             foreach (var post in imagePosts)
@@ -131,7 +127,7 @@ namespace LemmyApp1
         {
             if (string.IsNullOrEmpty(url)) return false;
 
-            return url.EndsWith(".png") || url.EndsWith(".jpg") || url.EndsWith(".gif") || url.EndsWith(".jpeg");
+            return url.EndsWith(".png") || url.EndsWith(".jpg") || url.EndsWith(".gif") || url.EndsWith(".jpeg") || url.EndsWith(".webp");
         }
     }
 }

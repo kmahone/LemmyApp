@@ -12,6 +12,7 @@ using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
+using Lemmy.Net.Types;
 
 namespace LemmyApp1
 {
@@ -23,9 +24,24 @@ namespace LemmyApp1
 
             navigationView.SelectionChanged += NavigationView_SelectionChanged;
             navigationView.BackRequested += NavigationView_BackRequested;
+
+            appVm.Setup();
+        }
+
+        public static Uri ImageUrlStringToUri(string uri)
+        {
+            if (string.IsNullOrEmpty(uri))
+            {
+                return new Uri("http://example.com");
+            }
+            else
+            {
+                return new Uri(uri);
+            }
         }
 
         LemmyCommunitiesVM communitiesVM = new LemmyCommunitiesVM();
+        LemmyAppVM appVm = new LemmyAppVM();
 
         private void NavigationView_BackRequested(NavigationView sender, NavigationViewBackRequestedEventArgs args)
         {
@@ -43,8 +59,9 @@ namespace LemmyApp1
             }
             else
             {
-                var item = navigationView.SelectedItem as string;
-                frame1.Navigate(typeof(LemmyPostsViewerPage), item);
+                var community = navigationView.SelectedItem as Community;
+                var vm = appVm.GetVMForCommunity(community);
+                frame1.Navigate(typeof(LemmyPostsViewerPage), vm);
             }
         }
     }

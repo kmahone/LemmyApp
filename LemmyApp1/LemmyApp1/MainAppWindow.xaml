@@ -7,12 +7,22 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
+    xmlns:lemmy="using:Lemmy.Net.Types"
     Title="LemmyApp1">
     <Window.SystemBackdrop>
         <MicaBackdrop />
     </Window.SystemBackdrop>
 
-    <NavigationView x:Name="navigationView" IsBackButtonVisible="Auto" IsBackEnabled="True" PaneTitle="LemmyViewer" MenuItemsSource="{x:Bind communitiesVM.Communities}" >
+    <NavigationView x:Name="navigationView" IsBackButtonVisible="Auto" IsBackEnabled="True" PaneTitle="LemmyViewer" MenuItemsSource="{x:Bind appVm.Communities, Mode=OneWay}" >
+        <NavigationView.MenuItemTemplate>
+            <DataTemplate x:DataType="lemmy:Community">
+                <NavigationViewItem  Content="{x:Bind Name}" >
+                    <NavigationViewItem.Icon>
+                        <BitmapIcon UriSource="{x:Bind local:MainAppWindow.ImageUrlStringToUri(Icon)}" ShowAsMonochrome="False" />
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+            </DataTemplate>
+        </NavigationView.MenuItemTemplate>
         <Frame x:Name="frame1" />
     </NavigationView>
 </Window>
