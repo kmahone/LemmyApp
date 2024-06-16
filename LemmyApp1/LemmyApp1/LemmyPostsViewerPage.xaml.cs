@@ -15,6 +15,8 @@ using Microsoft.UI.Xaml.Navigation;
 using Lemmy.Net.Types;
 using System.Diagnostics;
 using System.Numerics;
+using Microsoft.UI.Xaml.Media.Imaging;
+using Windows.UI.WebUI;
 
 namespace LemmyApp1
 {
@@ -35,6 +37,21 @@ namespace LemmyApp1
         {
             var scrollViewer = GetAllDescendants(listview).OfType<ScrollViewer>().First();
             scrollViewer.ViewChanging += ScrollViewer_ViewChanging;
+        }
+
+        public static ImageSource UriStringToImageSource(string uri)
+        {
+            if(string.IsNullOrEmpty(uri))
+            {
+                return new BitmapImage();
+            }
+            else
+            {
+                return new BitmapImage()
+                {
+                    UriSource = new Uri(uri),
+                };
+            }
         }
 
 

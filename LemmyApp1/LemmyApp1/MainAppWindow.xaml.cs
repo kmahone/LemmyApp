@@ -13,31 +13,16 @@ using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 
-// To learn more about WinUI, the WinUI project structure,
-// and more about our project templates, see: http://aka.ms/winui-project-info.
-
 namespace LemmyApp1
 {
-    /// <summary>
-    /// An empty window that can be used on its own or navigated to within a Frame.
-    /// </summary>
     public sealed partial class MainAppWindow : Window
     {
         public MainAppWindow()
         {
             this.InitializeComponent();
-            //navigationView.MenuItemsSource = new[]
-            //{
-            //    "memes",
-            //    "pics",
-            //    "programmerhumor",
-            //    "badrealestate@feddit.uk",
-            //    "cats@lemmy.world"
-            //};
 
             navigationView.SelectionChanged += NavigationView_SelectionChanged;
             navigationView.BackRequested += NavigationView_BackRequested;
-            //navigationView.SelectedItem = "memes";
         }
 
         LemmyCommunitiesVM communitiesVM = new LemmyCommunitiesVM();
@@ -54,13 +39,11 @@ namespace LemmyApp1
         {
             if (navigationView.SelectedItem == navigationView.SettingsItem)
             {
-                navigationView.Header = "Settings";
                 frame1.Navigate(typeof(SettingsPage), communitiesVM);
             }
             else
             {
                 var item = navigationView.SelectedItem as string;
-                navigationView.Header = item;
                 frame1.Navigate(typeof(LemmyPostsViewerPage), item);
             }
         }

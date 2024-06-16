@@ -50,16 +50,16 @@ namespace LemmyApp1
             }
         }
 
-        private string _description;
-        public string Description
+        private Community _community;
+        public Community Community
         {
-            get { return _description; }
+            get { return this._community; }
             set
             {
-                _description = value;
-                NotifyPropertyChanged(nameof(Description));
+                this._community = value;
+                NotifyPropertyChanged(nameof(Community));
             }
-        }
+        }   
         
 
         bool isLoadingMoreItems = false;
@@ -93,7 +93,7 @@ namespace LemmyApp1
             var imagePosts = getPostsRes.Posts.Where(postView => IsImageUrl(postView.Post.Url));
             Posts = new ObservableCollection<PostView>(imagePosts);
 
-            this.Description = com.Description;
+            this.Community = com;
 
             SetupRan = true;
         }

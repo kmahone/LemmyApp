@@ -6,9 +6,13 @@
     xmlns:local="using:LemmyApp1"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d">
+    mc:Ignorable="d"
+    Title="LemmyApp1">
+    <Window.SystemBackdrop>
+        <MicaBackdrop />
+    </Window.SystemBackdrop>
 
-    <NavigationView x:Name="navigationView" IsBackButtonVisible="Auto" IsBackEnabled="True" PaneTitle="LemmyViewer" Header="Header" MenuItemsSource="{x:Bind communitiesVM.Communities}" >
+    <NavigationView x:Name="navigationView" IsBackButtonVisible="Auto" IsBackEnabled="True" PaneTitle="LemmyViewer" MenuItemsSource="{x:Bind communitiesVM.Communities}" >
         <Frame x:Name="frame1" />
     </NavigationView>
 </Window>

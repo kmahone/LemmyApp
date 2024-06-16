@@ -21,11 +21,19 @@
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
 
-        <StackPanel Grid.ColumnSpan="3" Orientation="Horizontal" >
-            <Button Click="myButton_Click" >Start</Button>
-            <Button x:Name="commentsBtn" Click="commentsBtn_Click" >Comments</Button>
-            <Button Content="GC" x:Name="gcBtn" Click="gcBtn_Click" />
-        </StackPanel>
+        <Grid Grid.ColumnSpan="2" >
+            <Image Height="100" HorizontalAlignment="Stretch" Source="{x:Bind local:LemmyPostsViewerPage.UriStringToImageSource(vm.Community.Banner), Mode=OneWay}" Stretch="UniformToFill" Opacity="0.2" />
+            <StackPanel Orientation="Horizontal" >
+                <Image Width="100" Height="100" Source="{x:Bind local:LemmyPostsViewerPage.UriStringToImageSource(vm.Community.Icon), Mode=OneWay}" Stretch="UniformToFill" />
+                <TextBlock Text="{x:Bind vm.Community.Title, Mode=OneWay}" Style="{StaticResource TitleTextBlockStyle}" VerticalAlignment="Top" Margin="8" />
+                <StackPanel Orientation="Horizontal" Visibility="Collapsed" >
+                    <Button Click="myButton_Click" >Start</Button>
+                    <Button x:Name="commentsBtn" Click="commentsBtn_Click" >Comments</Button>
+                    <Button Content="GC" x:Name="gcBtn" Click="gcBtn_Click" />
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+        
 
         <ListView x:Name="listview" Grid.Row="1" Grid.Column="0" ItemsSource="{x:Bind vm.Posts, Mode=OneWay}" >
             <ListView.ItemTemplate>
@@ -52,7 +60,7 @@
         </ListView>
 
         <Grid Grid.Row="1" Grid.Column="1" >
-            <wct:MarkdownTextBlock x:Name="markdownTextBlock" Text="{x:Bind vm.Description, Mode=OneWay}" />
+            <wct:MarkdownTextBlock x:Name="markdownTextBlock" Text="{x:Bind vm.Community.Description, Mode=OneWay}" />
             <WebView2 x:Name="webView" Visibility="Collapsed" />
         </Grid>
 
