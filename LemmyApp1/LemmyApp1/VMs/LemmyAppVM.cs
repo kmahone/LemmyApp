@@ -1,5 +1,7 @@
 ﻿using Lemmy.Net;
 using Lemmy.Net.Types;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -31,6 +33,17 @@ namespace LemmyApp1
             {
                 _communities = value;
                 NotifyPropertyChanged(nameof(Communities));
+            }
+        }
+
+        private ObservableCollection<Community> _favorites;
+        public ObservableCollection<Community> Favorites
+        {
+            get { return _favorites; }
+            private set
+            {
+                _favorites = value;
+                NotifyPropertyChanged(nameof(Favorites));
             }
         }
 
@@ -71,12 +84,72 @@ namespace LemmyApp1
             }
 
             Communities = communities;
+
+
+            ObservableCollection<Community> favorites = new ObservableCollection<Community>();
+            var favoritesStr = new List<string>
+            {
+                "memes",
+                "pics",
+                "programmerhumor",
+                "badrealestate@feddit.uk",
+                "cat@lemmy.world"
+            };
+            foreach (var f in favoritesStr)
+            {
+                GetCommunity getCommunity = new GetCommunity
+                {
+                    Name = f,
+                };
+                var gcres = await Client.GetCommunity(getCommunity);
+                favorites.Add(gcres.CommunityView.Community);
+            }
+            Favorites = favorites;
+
+            List<AppNavItem> appNavItems = new List<AppNavItem>()
+            {
+                new AppNavItem { Title = "Favorites", Communities = Favorites },
+                new AppNavItem { Title = "Subscribed", Communities= Communities },
+            };
+            AppNavItems = appNavItems;
+            NotifyPropertyChanged(nameof(AppNavItems));
         }
 
         public class UserCredentials
         {
             public string Username { get; set; }
             public string Password { get; set; }
+        }
+
+        public List<AppNavItem> AppNavItems { get; private set; } 
+    }
+
+    public class AppNavItem
+    {
+        public string Title { get; set; }
+
+        public ObservableCollection<Community> Communities { get; set; }
+    }
+
+    public class NavViewDataTemplateSelector : DataTemplateSelector
+    {
+        public DataTemplate AppNavItemTemplate { get; set; }
+        public DataTemplate CommunityTemplate { get; set; }
+
+        protected override DataTemplate SelectTemplateCore(object item)
+        {
+            if (item is AppNavItem)
+            {
+                return AppNavItemTemplate;
+            }
+            else if (item is Community)
+            {
+                return CommunityTemplate;
+            }
+            else
+            {
+                throw new InvalidOperationException();
+            }
         }
     }
 }

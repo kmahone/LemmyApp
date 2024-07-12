@@ -13,16 +13,25 @@
         <MicaBackdrop />
     </Window.SystemBackdrop>
 
-    <NavigationView x:Name="navigationView" IsBackButtonVisible="Auto" IsBackEnabled="True" PaneTitle="LemmyViewer" MenuItemsSource="{x:Bind appVm.Communities, Mode=OneWay}" >
-        <NavigationView.MenuItemTemplate>
-            <DataTemplate x:DataType="lemmy:Community">
-                <NavigationViewItem  Content="{x:Bind Name}" >
+    <Grid>
+        <Grid.Resources>
+            <DataTemplate x:Key="AppNavItemDataTemplate" x:DataType="local:AppNavItem">
+                <NavigationViewItem Content="{x:Bind Title}" MenuItemsSource="{x:Bind Communities}" SelectsOnInvoked="False" />
+            </DataTemplate>
+
+            <DataTemplate x:Key="CommunityDataTemplate" x:DataType="lemmy:Community">
+                <NavigationViewItem Content="{x:Bind Name}" >
                     <NavigationViewItem.Icon>
                         <BitmapIcon UriSource="{x:Bind local:MainAppWindow.ImageUrlStringToUri(Icon)}" ShowAsMonochrome="False" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
             </DataTemplate>
-        </NavigationView.MenuItemTemplate>
-        <Frame x:Name="frame1" />
-    </NavigationView>
+
+            <local:NavViewDataTemplateSelector x:Key="templateSelector" AppNavItemTemplate="{StaticResource AppNavItemDataTemplate}" CommunityTemplate="{StaticResource CommunityDataTemplate}" />
+        </Grid.Resources>
+
+        <NavigationView x:Name="navigationView" IsBackButtonVisible="Auto" IsBackEnabled="True" PaneTitle="LemmyViewer" MenuItemsSource="{x:Bind appVm.AppNavItems, Mode=OneWay}" MenuItemTemplateSelector="{StaticResource templateSelector}"  >
+            <Frame x:Name="frame1" />
+        </NavigationView>
+    </Grid>
 </Window>

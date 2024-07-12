@@ -57,9 +57,8 @@ namespace LemmyApp1
             {
                 frame1.Navigate(typeof(SettingsPage), communitiesVM);
             }
-            else
+            else if(navigationView.SelectedItem is Community community)
             {
-                var community = navigationView.SelectedItem as Community;
                 var vm = appVm.GetVMForCommunity(community);
                 frame1.Navigate(typeof(LemmyPostsViewerPage), vm);
             }
